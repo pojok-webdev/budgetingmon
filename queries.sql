@@ -1,0 +1,2 @@
+curl -k -H "Content-Type:application/json" -H "Accept:application/json" -d '{"tableName":"deletedsubmissions","cols":["id","subject"],"conditions":[{key:"1",val:"1"}]}' -X POST localhost:20222/retrieve
+curl -k -H "Content-Type:application/json" -H "Accept:application/json" -d '{"tableName":"deletedsubmission_details","cols":["id","itemname"],"conditions":[{"key":"1","val":"1"}]}' -X POST localhost:20222/retrieve

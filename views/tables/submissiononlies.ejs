@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%-include('./../commons/head')-%>
+  <style>
+    #tdata tbody tr td:nth-child(5){
+      text-transform: capitalize;
+    }
+  </style>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+  <!-- Navbar -->
+  <%-include('./../commons/navbar')-%>
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+  <%-include('./../commons/aside')-%>
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <%-include('./../commons/contentheader')-%>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">DataTable with default features</h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <table id="tdata" class="table table-bordered table-striped">
+                  <thead>
+                  <tr>
+                    <% data.cols.forEach(function(x){%>
+                      <th><%= x %></th>
+                    <% })%>
+                    <th></th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <% data.cols.forEach(function(x){%>
+                        <th><%= x %></th>
+                      <% })%>
+                      <th></th>
+                    </tr>
+                      </tfoot>
+                </table>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+      </div>
+      <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <%-include('./../commons/footer')-%>
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<%-include('./../commons/jsfooter')-%>
+<!-- Page specific script -->
+<script>
+  tableName = '<%=data.tableName%>'
+  cols = '<%=data.cols%>'
+  tdata = $('#tdata').DataTable({
+    ajax:{
+      url:'/specialqueryprovider',
+      data:{
+        query:"select a.id,a.subject,a.budgeting_number,a.createuser,a.createdate from submissions a "
+        +"left outer join submission_details b "
+        +"on b.submission_id=a.id "
+        +"where b.id is null ",
+        cols:["id","subject","budgeting_number","createuser","createdate"]
+      },
+      type:'post'
+    },        
+    "columnDefs": [ 
+      {
+          "targets": 5,
+          "data": null,
+          "defaultContent":'<div class="btn-group">'
+          +'<button type="button" class="btn btn-default">Aksi</button>'
+          +'<button type="button" class="btn btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown">'
+          +'<span class="sr-only">Toggle Dropdown</span></button>'
+          +'<div class="dropdown-menu dropdown-menu-right" role="menu">'
+          +'<a class="dropdown-item btnRestore" style="cursor:pointer"> Restore</a>'
+          
+          +'<a class="dropdown-item btnMark" style="cursor:pointer;background:aliceblue"> Tandai</a>'
+          +'<div class="dropdown-divider"></div>'
+          +'<a class="dropdown-item btnPermanentlyRemove" style="cursor:pointer;color:red;"><i class="fa fa-bell"></i> Hapus Permanen</a></div>'
+          +'</div>'
+      }]
+  })
+</script>
+</body>
+</html>
